@@ -11,10 +11,10 @@
         /* 
         this program will play a 5 round game of rock paper scissors in the console
         game value = rock, paper, or scissors
-        function getComputerChoice will randomly return game value when called
-        function getHumanChoice will prompt user for input
-        function getHumanChoice will set input to lowercase and check if it's a game value
-        function getHumanChoice will prompt user again if falsy or store game value in variable humanChoice if true
+        -function getComputerChoice will randomly return game value when called
+        -function getHumanChoice will prompt user for input
+        -function getHumanChoice will set input to lowercase and check if it's a game value
+        -function getHumanChoice will prompt user again if falsy or store game value in variable humanChoice if true
         variable computerChoice will call getComputerChoice for value
         variable computerScore and variable humanScore will be declared globally and equal to 0
         function playRound will take variable computerScore and variable humanScore as parameters
@@ -28,10 +28,39 @@
 
         function getComputerChoice(){
            let gameValue = Math.floor(Math.random() * 3);
-           return gameValue;  
+           
+            if (gameValue === 0){
+                return "rock";
+            }
+            else if (gameValue === 1){
+                return "paper";
+            }
+            else {
+                return "scissors";
+            }                                                                        
         }
-        
-        
+          
+        function getHumanChoice(){
+            let gameValue = prompt("Rock... paper... scissors... SHOOT!");
+
+            if (gameValue.toLowerCase() === "rock"){
+                return "rock";
+            }
+            else if (gameValue.toLowerCase() === "paper"){
+                return "paper";
+            }
+            else if (gameValue.toLowerCase() === "scissors"){
+                return "scissors";
+            }
+            else {
+                location.reload();
+            }
+        }
+
+        let humanChoice = getHumanChoice();
+        let computerChoice = getComputerChoice();
+
+        console.log(humanChoice)
         
     </script>
 </body>
