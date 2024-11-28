@@ -15,16 +15,22 @@
         -function getHumanChoice will prompt user for input
         -function getHumanChoice will set input to lowercase and check if it's a game value
         -function getHumanChoice will prompt user again if falsy or store game value in variable humanChoice if true
-        variable computerChoice will call getComputerChoice for value
-        variable computerScore and variable humanScore will be declared globally and equal to 0
-        function playRound will take variable computerScore and variable humanScore as parameters
-        function playRound will if else compare parameters to determine if user wins or loses on truthy results
+        -variable computerChoice will call getComputerChoice for value
+        -variable computerScore and variable humanScore will be declared globally and equal to 0
+        -function playRound will take variable computerChoice and variable humanChoice as parameters
+        -function playRound will if else compare parameters to determine if user wins or loses on truthy results
         function playRound will console.log message to user on game results
         function playRound will increment computerScore if user loses 
         function playRound will increment humanScore if user wins
         function playGame will call function playRound 5 times
         function playGame will console.log message to user on who won
         */
+
+        const humanChoice = getHumanChoice();
+        const computerChoice = getComputerChoice();
+
+        let humanScore = 0;
+        let computerScore = 0;
 
         function getComputerChoice(){
            let gameValue = Math.floor(Math.random() * 3);
@@ -57,10 +63,21 @@
             }
         }
 
-        let humanChoice = getHumanChoice();
-        let computerChoice = getComputerChoice();
+        function playRound(x,y){
+            if (x === "rock" && y === "scissors" || x === "paper" && y === "rock" || x === "scissors" && y === "paper"){
+                return "You win! Maybe you are good at gambling!";
+            }
+            else if (x === "rock" && y === "rock" || x === "paper" && y === "paper" || x === "scissors" && y === "scissors"){
+                return "It's a tie! Sucks to suck womp womp.";
+            }
+            else {
+                return "You lose! Yikes, probably a skill issue on your part to be honest.";
+            }
+        }
 
-        console.log(humanChoice)
+        console.log(humanChoice);
+        console.log(computerChoice);
+        console.log(playRound(humanChoice,computerChoice))
         
     </script>
 </body>
