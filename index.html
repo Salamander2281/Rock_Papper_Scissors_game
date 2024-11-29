@@ -34,7 +34,11 @@
 
         let roundNum = 0;
 
-        playGame();
+        console.log("Greetings silly goose, today we risk it all for a glorious game of gambling! We will start shortly but, highest score after 5 rounds wins and if you don't enter a valid move I wipe the whole game <3");
+        console.log(" ");
+        setTimeout(() => {
+                    playGame();
+                }, 10000) 
 
         function getComputerChoice(){
            let gameValue = Math.floor(Math.random() * 3);
@@ -51,6 +55,7 @@
         }
           
         function getHumanChoice(){
+
             let gameValue = prompt("Rock... paper... scissors... SHOOT!");
 
             if (gameValue.toLowerCase() === "rock"){
@@ -63,7 +68,7 @@
                 return "scissors";
             }
             else {
-                location.reload();
+               location.reload(); 
             }
         }
 
