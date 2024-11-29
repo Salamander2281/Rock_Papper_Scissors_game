@@ -19,18 +19,22 @@
         -variable computerScore and variable humanScore will be declared globally and equal to 0
         -function playRound will take variable computerChoice and variable humanChoice as parameters
         -function playRound will if else compare parameters to determine if user wins or loses on truthy results
-        function playRound will console.log message to user on game results
-        function playRound will increment computerScore if user loses 
-        function playRound will increment humanScore if user wins
-        function playGame will call function playRound 5 times
-        function playGame will console.log message to user on who won
+        -function playRound will console.log message to user on game results
+        -function playRound will increment computerScore if user loses 
+        -function playRound will increment humanScore if user wins
+        -function playGame will call function playRound 5 times
+        -function playGame will console.log message to user on who won
         */
 
-        const humanChoice = getHumanChoice();
-        const computerChoice = getComputerChoice();
+        let humanChoice;
+        let computerChoice; 
 
         let humanScore = 0;
         let computerScore = 0;
+
+        let roundNum = 0;
+
+        playGame();
 
         function getComputerChoice(){
            let gameValue = Math.floor(Math.random() * 3);
@@ -65,19 +69,46 @@
 
         function playRound(x,y){
             if (x === "rock" && y === "scissors" || x === "paper" && y === "rock" || x === "scissors" && y === "paper"){
-                return "You win! Maybe you are good at gambling!";
+                console.log("You win! Maybe you are good at gambling!");
+                humanScore++; 
+                console.log(computerScore + " for me and " + humanScore + " for you");
             }
             else if (x === "rock" && y === "rock" || x === "paper" && y === "paper" || x === "scissors" && y === "scissors"){
-                return "It's a tie! Sucks to suck womp womp.";
+                console.log("It's a tie! Sucks to suck womp womp.");
+                console.log(computerScore + " for me and " + humanScore + " for you");
             }
             else {
-                return "You lose! Yikes, probably a skill issue on your part to be honest.";
+                console.log("You lose! Yikes, probably a skill issue on your part to be honest.");
+                computerScore++;
+                console.log(computerScore + " for me and " + humanScore + " for you");
             }
         }
 
-        console.log(humanChoice);
-        console.log(computerChoice);
-        console.log(playRound(humanChoice,computerChoice))
+        function playGame(){
+            humanChoice = getHumanChoice();
+            computerChoice = getComputerChoice();
+            console.log("You played " + humanChoice);
+            console.log("I played " + computerChoice);
+            playRound(humanChoice,computerChoice);
+            console.log("");
+            roundNum++;
+            
+            if (roundNum === 5 && humanScore > computerScore){
+                console.log("Victory! You've done it! Against all odds you've beaten the machine! Now go buy a scratch off you've earned it :3");
+            }
+            else if (roundNum === 5 && humanScore < computerScore){
+                console.log("You lose, yipee! You can expect your invite to loser town to arrive by mail.");
+            }
+            else if (roundNum === 5 && humanScore === computerScore){
+                console.log("It's a tie! Kind of like losing but just a lot less memorable for everyone involved...");
+            }
+            else if (roundNum < 5){
+                setTimeout(() => {
+                    playGame();
+                }, 4000) 
+            }    
+        }
+        
         
     </script>
 </body>
