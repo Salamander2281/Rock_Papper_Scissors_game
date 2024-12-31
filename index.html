@@ -6,25 +6,33 @@
     <title>Document</title>
 </head>
 <body>
+    <div id="gameArea">
+        <div id="buttons">
+            <button id="rock">rock</button>
+            <button id="paper">paper</button>
+            <button id="scissors">scissors</button>
+        </div>
+    </div>
+
     <script>
-        
-        /* 
-        this program will play a 5 round game of rock paper scissors in the console
-        game value = rock, paper, or scissors
-        -function getComputerChoice will randomly return game value when called
-        -function getHumanChoice will prompt user for input
-        -function getHumanChoice will set input to lowercase and check if it's a game value
-        -function getHumanChoice will prompt user again if falsy or store game value in variable humanChoice if true
-        -variable computerChoice will call getComputerChoice for value
-        -variable computerScore and variable humanScore will be declared globally and equal to 0
-        -function playRound will take variable computerChoice and variable humanChoice as parameters
-        -function playRound will if else compare parameters to determine if user wins or loses on truthy results
-        -function playRound will console.log message to user on game results
-        -function playRound will increment computerScore if user loses 
-        -function playRound will increment humanScore if user wins
-        -function playGame will call function playRound 5 times
-        -function playGame will console.log message to user on who won
-        */
+      const gameArea = document.querySelector("#gameArea");
+      const buttons = document.querySelector("#buttons");
+
+
+        const rockBtn = document.querySelector("#rock");
+            rockBtn.addEventListener("click", () => {
+                playGame("rock");
+            })
+
+        const paperBtn = document.querySelector("#paper");
+            paperBtn.addEventListener("click", () => {
+                playGame("paper");
+            })
+
+        const scissorsBtn = document.querySelector("#scissors");
+            scissorsBtn.addEventListener("click", () => {
+                playGame("scissors");
+            })
 
         let humanChoice;
         let computerChoice; 
@@ -33,88 +41,85 @@
         let computerScore = 0;
 
         let roundNum = 0;
-
-        console.log("Greetings silly goose, today we risk it all for a glorious game of gambling! We will start shortly but, highest score after 5 rounds wins and if you don't enter a valid move I wipe the whole game <3");
-        console.log(" ");
-        setTimeout(() => {
-                    playGame();
-                }, 10000) 
+        let currentScore = computerScore + " for me and " + humanScore + " for you";
+        const results = document.createElement("div");
 
         function getComputerChoice(){
-           let gameValue = Math.floor(Math.random() * 3);
+           let computerChoice = Math.floor(Math.random() * 3);
            
-            if (gameValue === 0){
+            if (computerChoice === 0){
                 return "rock";
             }
-            else if (gameValue === 1){
+            else if (computerChoice === 1){
                 return "paper";
             }
             else {
                 return "scissors";
             }                                                                        
-        }
-          
-        function getHumanChoice(){
-
-            let gameValue = prompt("Rock... paper... scissors... SHOOT!");
-
-            if (gameValue.toLowerCase() === "rock"){
-                return "rock";
-            }
-            else if (gameValue.toLowerCase() === "paper"){
-                return "paper";
-            }
-            else if (gameValue.toLowerCase() === "scissors"){
-                return "scissors";
-            }
-            else{
-                location.reload();
-            }
-        }
+        }  
 
         function playRound(x,y){
             if (x === "rock" && y === "scissors" || x === "paper" && y === "rock" || x === "scissors" && y === "paper"){
-                console.log("You win! Maybe you are good at gambling!");
                 humanScore++; 
-                console.log(computerScore + " for me and " + humanScore + " for you");
+                results.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". You Win! Maybe You are good at gambling! " +
+                    humanScore + " for you and " + computerScore + " for me";
+                gameArea.appendChild(results);
             }
             else if (x === "rock" && y === "rock" || x === "paper" && y === "paper" || x === "scissors" && y === "scissors"){
-                console.log("It's a tie! Sucks to suck womp womp.");
-                console.log(computerScore + " for me and " + humanScore + " for you");
+                results.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". It's a tie! Sucks to suck womp womp. " +
+                    humanScore + " for you and " + computerScore + " for me";
+                gameArea.appendChild(results);
             }
             else {
-                console.log("You lose! Yikes, probably a skill issue on your part to be honest.");
                 computerScore++;
-                console.log(computerScore + " for me and " + humanScore + " for you");
+                results.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". You lose! Maybe I'm getting better. " +
+                    humanScore + " for you and " + computerScore + " for me";
+                gameArea.appendChild(results);
             }
         }
 
-        function playGame(){
-            humanChoice = getHumanChoice();
+        function playGame(button){
+            const finalResults = document.createElement("div");
+            finalResults.style.paddingTop = "20px";
+            humanChoice = button;
             computerChoice = getComputerChoice();
-            console.log("You played " + humanChoice);
-            console.log("I played " + computerChoice);
             playRound(humanChoice,computerChoice);
-            console.log("");
             roundNum++;
             
             if (roundNum === 5 && humanScore > computerScore){
-                console.log("Victory! You've done it! Against all odds you've beaten the machine! Now go buy a scratch off you've earned it :3");
+                gameArea.removeChild(buttons);
+                finalResults.textContent = "Victory! You've done it! Against all odds you've beaten the machine! Now go buy a scratch off you've earned it :3";
+                gameArea.appendChild(finalResults);
+                const playAgain = document.createElement("button")
+                playAgain.textContent = "Play Again?";
+                gameArea.appendChild(playAgain);
+                playAgain.addEventListener("click", () => {
+                    location.reload();
+                });
             }
             else if (roundNum === 5 && humanScore < computerScore){
-                console.log("You lose, yippee! You can expect your invite to loser town to arrive by mail.");
+                gameArea.removeChild(buttons);
+                finalResults.textContent = "You lose, yippee! You can expect your invite to loser town to arrive by mail.";
+                gameArea.appendChild(finalResults);
+                const playAgain = document.createElement("button")
+                playAgain.textContent = "Play Again?";
+                gameArea.appendChild(playAgain);
+                playAgain.addEventListener("click", () => {
+                    location.reload();
+                });
             }
             else if (roundNum === 5 && humanScore === computerScore){
-                console.log("It's a tie! Kind of like losing but just a lot less memorable for everyone involved...");
+                gameArea.removeChild(buttons);
+                finalResults.textContent = "It's a tie! Kind of like losing but just a lot less memorable for everyone involved...";
+                gameArea.appendChild(finalResults);
+                const playAgain = document.createElement("button")
+                playAgain.textContent = "Play Again?";
+                gameArea.appendChild(playAgain);
+                playAgain.addEventListener("click", () => {
+                    location.reload();
+                });
             }
-            else if (roundNum < 5){
-                setTimeout(() => {
-                    playGame();
-                }, 4000) 
-            }    
-        }
-        
-        
+        }   
     </script>
 </body>
 </html>
