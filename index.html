@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rock, paper, and even scissors</title>
 </head>
 <body>
     <div id="gameArea">
+        <h2 id="roundNum">
+            Round 0
+        </h2>
+        <p id="gameText">
+            Greetings silly goose! Today we will play a glorious game 
+            of gambling (rock, paper, scissors). Highest score after 5 
+            rounds wins!
+        </p>
         <div id="buttons">
             <button id="rock">rock</button>
             <button id="paper">paper</button>
@@ -15,20 +23,18 @@
     </div>
 
     <script>
-      const gameArea = document.querySelector("#gameArea");
+      const gameText = document.querySelector("#gameText");
       const buttons = document.querySelector("#buttons");
-
+      const roundNumDisplay = document.querySelector("#roundNum");
 
         const rockBtn = document.querySelector("#rock");
             rockBtn.addEventListener("click", () => {
                 playGame("rock");
             })
-
         const paperBtn = document.querySelector("#paper");
             paperBtn.addEventListener("click", () => {
                 playGame("paper");
             })
-
         const scissorsBtn = document.querySelector("#scissors");
             scissorsBtn.addEventListener("click", () => {
                 playGame("scissors");
@@ -36,10 +42,8 @@
 
         let humanChoice;
         let computerChoice; 
-
         let humanScore = 0;
         let computerScore = 0;
-
         let roundNum = 0;
         let currentScore = computerScore + " for me and " + humanScore + " for you";
         const results = document.createElement("div");
@@ -61,20 +65,17 @@
         function playRound(x,y){
             if (x === "rock" && y === "scissors" || x === "paper" && y === "rock" || x === "scissors" && y === "paper"){
                 humanScore++; 
-                results.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". You Win! Maybe You are good at gambling! " +
+                gameText.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". You Win! Maybe You are good at gambling! " +
                     humanScore + " for you and " + computerScore + " for me";
-                gameArea.appendChild(results);
             }
             else if (x === "rock" && y === "rock" || x === "paper" && y === "paper" || x === "scissors" && y === "scissors"){
-                results.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". It's a tie! Sucks to suck womp womp. " +
+                gameText.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". It's a tie! Sucks to suck womp womp. " +
                     humanScore + " for you and " + computerScore + " for me";
-                gameArea.appendChild(results);
             }
             else {
                 computerScore++;
-                results.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". You lose! Maybe I'm getting better. " +
+                gameText.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". You lose! Maybe I'm getting better. " +
                     humanScore + " for you and " + computerScore + " for me";
-                gameArea.appendChild(results);
             }
         }
 
@@ -85,6 +86,7 @@
             computerChoice = getComputerChoice();
             playRound(humanChoice,computerChoice);
             roundNum++;
+            roundNumDisplay.textContent = "Round " + roundNum;
             
             if (roundNum === 5 && humanScore > computerScore){
                 gameArea.removeChild(buttons);
