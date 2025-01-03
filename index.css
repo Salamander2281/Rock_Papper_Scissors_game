@@ -1,0 +1,74 @@
+body{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color:#e0fbfc;
+    box-sizing: border-box;
+    min-width:fit-content;
+}
+
+#gameArea{
+    display:flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    text-align: center;
+    gap: 1em;
+    background-color: #3d5a80;
+    border: .25em solid #ee6c4d;
+    margin: 6em;
+    padding: 10% 10% 80% 10%; 
+}
+
+#gameText, #currentScore{
+    color: #e0fbfc;
+    line-height: 1.5;  
+    margin-bottom: 2em;
+}
+
+#currentScore{
+    text-decoration: underline;
+}
+
+#buttons, #holdMyButts{
+    display: flex;
+    margin: 2em;
+    gap: 2em;
+}
+
+#rock, #paper, #scissors, #playAgain{
+    border: .2em solid #ee6c4d;
+    background-color: #e0fbfc;
+    color: #3d5a80;
+    font-size: 1em;
+    text-align: center;
+}
+
+#finalResults{
+    color: #ee6c4d;
+}
+
+.suddenDeath{
+    border: .2em solid red;
+    background-color: #0b090a;
+    color: red;
+    font-size: 1em;
+    text-align: center;
+}
+
+#suddenDeathArea{
+    display:flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    text-align: center;
+    gap: 1em;
+    background-color: #0b090a;
+    border: .25em solid red;
+    margin: 6em;
+    padding: 10% 10% 80% 10%; 
+}
+
+#suddenDeathBody{
+    background-color: #0a090a;
+}
+
+#suddenDeathRoundText{
+    color:red;
+}

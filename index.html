@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock, paper, and even scissors</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div id="gameArea">
@@ -15,6 +16,7 @@
             of gambling (rock, paper, scissors). Highest score after 5 
             rounds wins!
         </p>
+        <p id="currentScore"></p>
         <div id="buttons">
             <button id="rock">rock</button>
             <button id="paper">paper</button>
@@ -23,9 +25,12 @@
     </div>
 
     <script>
+      const gameArea = document.querySelector('#gameArea');
       const gameText = document.querySelector("#gameText");
       const buttons = document.querySelector("#buttons");
+      const currentScore = document.querySelector('#currentScore');
       const roundNumDisplay = document.querySelector("#roundNum");
+      let buttonContainer;
 
         const rockBtn = document.querySelector("#rock");
             rockBtn.addEventListener("click", () => {
@@ -45,9 +50,7 @@
         let humanScore = 0;
         let computerScore = 0;
         let roundNum = 0;
-        let currentScore = computerScore + " for me and " + humanScore + " for you";
-        const results = document.createElement("div");
-
+        
         function getComputerChoice(){
            let computerChoice = Math.floor(Math.random() * 3);
            
@@ -65,17 +68,17 @@
         function playRound(x,y){
             if (x === "rock" && y === "scissors" || x === "paper" && y === "rock" || x === "scissors" && y === "paper"){
                 humanScore++; 
-                gameText.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". You Win! Maybe You are good at gambling! " +
-                    humanScore + " for you and " + computerScore + " for me";
+                gameText.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". You Win! Maybe You are good at gambling!";    
+                currentScore.textContent = humanScore + " for you and " + computerScore + " for me";
             }
             else if (x === "rock" && y === "rock" || x === "paper" && y === "paper" || x === "scissors" && y === "scissors"){
-                gameText.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". It's a tie! Sucks to suck womp womp. " +
-                    humanScore + " for you and " + computerScore + " for me";
+                gameText.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". It's a tie! Sucks to suck womp womp."
+                currentScore.textContent = humanScore + " for you and " + computerScore + " for me";
             }
             else {
                 computerScore++;
-                gameText.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". You lose! Maybe I'm getting better. " +
-                    humanScore + " for you and " + computerScore + " for me";
+                gameText.textContent = "You played " + humanChoice + " and I played " + computerChoice + ". You lose! Maybe I'm getting better."
+                currentScore.textContent = humanScore + " for you and " + computerScore + " for me";
             }
         }
 
@@ -92,9 +95,11 @@
                 gameArea.removeChild(buttons);
                 finalResults.textContent = "Victory! You've done it! Against all odds you've beaten the machine! Now go buy a scratch off you've earned it :3";
                 gameArea.appendChild(finalResults);
+                finalResults.setAttribute("id", "finalResults");
                 const playAgain = document.createElement("button")
                 playAgain.textContent = "Play Again?";
                 gameArea.appendChild(playAgain);
+                playAgain.setAttribute("id", "playAgain");
                 playAgain.addEventListener("click", () => {
                     location.reload();
                 });
@@ -103,25 +108,87 @@
                 gameArea.removeChild(buttons);
                 finalResults.textContent = "You lose, yippee! You can expect your invite to loser town to arrive by mail.";
                 gameArea.appendChild(finalResults);
+                finalResults.setAttribute("id", "finalResults");
                 const playAgain = document.createElement("button")
                 playAgain.textContent = "Play Again?";
                 gameArea.appendChild(playAgain);
+                playAgain.setAttribute("id", "playAgain");
                 playAgain.addEventListener("click", () => {
                     location.reload();
                 });
             }
             else if (roundNum === 5 && humanScore === computerScore){
                 gameArea.removeChild(buttons);
-                finalResults.textContent = "It's a tie! Kind of like losing but just a lot less memorable for everyone involved...";
-                gameArea.appendChild(finalResults);
+                gameArea.setAttribute("id",'suddenDeathArea');
+                document.querySelector("body").setAttribute('id','suddenDeathBody');
+                roundNumDisplay.setAttribute('id','suddenDeathRoundText')
+                roundNumDisplay.textContent = "SUDDEN DEATH"
+                gameText.setAttribute("id",'suddenDeathRoundText')
+                gameText.textContent = "No, I refuse. This game will not end on a tie. " +
+                "We're finished when it's done and while I'm at it let me also add that we're only " +
+                "done when it's finished... SUDDEN DEATH!!";
+                gameArea.removeChild(currentScore);
+                buttonContainer = document.createElement("div");
+                    gameArea.appendChild(buttonContainer);
+                    buttonContainer.setAttribute("id", "holdMyButts")
+                const suddenDeathRock = document.createElement("button");
+                    suddenDeathRock.textContent = "rock";
+                    buttonContainer.appendChild(suddenDeathRock);
+                    suddenDeathRock.setAttribute("class", "suddenDeath");
+                    suddenDeathRock.addEventListener("click", () => {
+                        suddenDeath("rock");
+                    });
+                const suddenDeathPaper = document.createElement("button");
+                    suddenDeathPaper.textContent = "paper";
+                    buttonContainer.appendChild(suddenDeathPaper);
+                    suddenDeathPaper.setAttribute("class", "suddenDeath");
+                    suddenDeathPaper.addEventListener("click", () => {
+                        suddenDeath("paper");
+                    });
+                const suddenDeathScissors = document.createElement("button");
+                    suddenDeathScissors.textContent = "scissors";
+                    buttonContainer.appendChild(suddenDeathScissors);
+                    suddenDeathScissors.setAttribute("class", "suddenDeath");
+                    suddenDeathScissors.addEventListener("click", () => {
+                        suddenDeath("scissors");
+                    });
+            }
+        }   
+
+        function suddenDeath(button){
+            computerChoice = getComputerChoice();
+
+            if (button === "rock" && computerChoice === "scissors" || button === "paper" && computerChoice === "rock" || button === "scissors" && computerChoice === "paper"){
+                gameArea.removeChild(buttonContainer);    
+                gameText.textContent = "You played " + button + " and I played " + computerChoice + 
+                    ". You did it... You actually won. I didn't know I could taste defeat until this... until you. " +
+                    "Uhh anyways nice job! Wanna see how you'll do in a rematch?";
                 const playAgain = document.createElement("button")
                 playAgain.textContent = "Play Again?";
                 gameArea.appendChild(playAgain);
+                playAgain.setAttribute("class", "suddenDeath");
                 playAgain.addEventListener("click", () => {
                     location.reload();
-                });
+                });    
             }
-        }   
+            else if (button === "rock" && computerChoice === "rock" || button === "paper" && computerChoice === "paper" || button === "scissors" && computerChoice === "scissors"){
+                gameText.textContent = "You played " + button + " and I played " + computerChoice + ". It's a tie!" +
+                " we don't stop until we're done. ROCK, PAPER, SCISSORS, RAAAH!!"
+            }
+            else {   
+                gameArea.removeChild(buttonContainer);    
+                gameText.textContent = "You played " + button + " and I played " + computerChoice + 
+                " aaaaaaaaaand you lost. Can't say I'm surprised given that I'm both your opponent and" +
+                " your referee. Kind anticlimactic to just lose I gotta say, wanna run it again?"
+                const playAgain = document.createElement("button")
+                playAgain.textContent = "Play Again?";
+                gameArea.appendChild(playAgain);
+                playAgain.setAttribute("class", "suddenDeath");
+                playAgain.addEventListener("click", () => {
+                    location.reload();
+                });    
+            }
+            }
     </script>
 </body>
 </html>
